@@ -1,8 +1,8 @@
 input {
-    margin: 10px 10px;
+    margin: 10px;
     width: 450px; 
     height: 50px; 
-    font-size: 18px; 
+    font-size: 40px; 
     padding: 10px; 
     position: absolute;
     top: 0;
@@ -31,7 +31,11 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;  
+    height: 80vh;  
+  }
+
+  #zero {
+    width: 225px;
   }
 
   
