@@ -55,7 +55,7 @@ window.addEventListener('keydown', function(event) {
     percentage.click();
   }
 
-  // Handle Decimals key
+  // Handle decimal key
   if(key == '.'){
     decimal.click();
   }
