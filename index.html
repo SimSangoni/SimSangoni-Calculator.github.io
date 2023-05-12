@@ -6,45 +6,32 @@
     <link rel="stylesheet" href="CSS/style.css">
 </head>
 <body>
-    <section class="calculator">
-        <input type="text" id="display"/><br />
-        <div class="calcButtons">
-            <div class="numbers">   
-                <div id="clear">
-                    <button id="zero" value="CL">AC</button>
-                    <button value="Del">⌫</button>
-                </div>
-                <div id="sevenToNine">
-                    <button class="num" value="7">7</button>
-                    <button class="num" value="8">8</button>
-                    <button class="num" value="9">9</button>
-                </div>
-                <div id="fourToSix">
-                    <button class="num" value="4">4</button>
-                    <button class="num" value="5">5</button>
-                    <button class="num" value="6">6</button>
-                </div>
-                <div id="oneToThree">
-                    <button class="num" value="1">1</button>
-                    <button class="num" value="2">2</button>
-                    <button class="num" value="3">3</button>
-                </div>
-                <div class="otherButtons">
-                    <button id="zero" class="num" value="0">0</button>
-                    <button value=".">.</button>
-                </div>
-            </div>
-            <div class="operators">
-                <button value="equal">=</button> 
-                <button class="oper" value="-">-</button>
-                <button class="oper" value="+">+</button>
-                <button class="oper" value="÷">÷</button>
-                <button class="oper" value="×">×</button>
-            </div>
+    <body>
+        <div class="calculator">
+          <input type="text" id="result" readonly>
+          <div class="buttons">
+            <button id="clear">C</button>
+            <button id="backspace">⌫</button>
+            <button id="percentage">%</button>
+            <button class="operator">/</button>
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+            <button class="operator">*</button>
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+            <button class="operator">-</button>
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
+            <button class="operator">+</button>
+            <button id="zero" class="number">0</button>
+            <button class="number" id="decimal">.</button>
+            <button id="equals">=</button>
+            
+          </div>
         </div>
-    </section>
-
-    <!-- 0️⃣1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣➕➖✖️➗🟰⬅️ -->
     <script src="JavaScript/script.js"></script>
 </body>
 </html>

@@ -1,70 +1,161 @@
-const buttons = document.querySelectorAll('button');
-const display = document.getElementById('display')
+const result = document.getElementById('result');
+const numbers = document.getElementsByClassName('number');
+const operators = document.getElementsByClassName('operator');
+const equals = document.getElementById('equals');
+const clear = document.getElementById('clear');
+const backspace = document.getElementById('backspace');
+const percentage = document.getElementById('percentage');
+const decimal = document.getElementById('decimal');
 
-const arr = [];
+let operand1 = '';
+let operator = '';
+let operand2 = '';
 
-function add(a,b){
-    return a + b;
-}
-function subtract(a,b){
-    return a - b;
-}
-function multipy(a,b){
-    return a * b;
-}
-function divide(a,b){
-    if (b==0){
-        return "Cannot Divide by Zero"
-    } else {
-    return a / b;}
-}
-// Operator Function 
-function operate(arr) {
-  let result = parseFloat(arr[0]);
-  for (let i = 1; i < arr.length; i += 2) {
-      const operator = arr[i];
-      const num = parseFloat(arr[i + 1]);
-      switch (operator) {
-          case "+":
-              return add(result, num);
-              break;
-          case "-":
-              return subtract(result, num);
-              break;
-          case "×":
-              return multipy(result, num);
-              break;
-          case "÷":
-             return divide(result, num);
-              break;
+// Keyboard Support
+window.addEventListener('keydown', function(event) {
+  const key = event.key;
+
+  // Handle number keys
+  if (/^[0-9]$/.test(key)) {
+    for (let i = 0; i < numbers.length; i++) {
+      if (numbers[i].textContent === key) {
+        numbers[i].click();
+        break;
       }
+    }
   }
- // return result;
+
+  // Handle operator keys
+  if (key == '+' || key == '-' || key == '*' || key == '/') {
+    for (let i = 0; i < operators.length; i++) {
+      if (operators[i].textContent === key) {
+        operators[i].click();
+        break;
+      }
+    }
+  }
+
+  // Handle equals key
+  if (key == 'Enter') {
+    equals.click();
+  }
+
+  // Handle clear key
+  if (key == 'Escape') {
+    clear.click();
+  }
+
+  // Handle backspace key
+  if (key == 'Backspace') {
+    backspace.click();
+  }
+
+  // Handle percentage key
+  if (key == '%') {
+    percentage.click();
+  }
+
+  // Handle Decimals key
+  if(key == '.'){
+    decimal.click();
+  }
+});
+
+// Add event listeners to number buttons
+for (let i = 0; i < numbers.length; i++) {
+  numbers[i].addEventListener('click', function() {
+    if (!operator) {
+      if (operand1.includes('.') && numbers[i].textContent === '.') {
+        result.value = 'Syntax Error';
+        return;
+      }
+      operand1 += numbers[i].textContent;
+      result.value = operand1;
+    } else {
+      if (operand2.includes('.') && numbers[i].textContent === '.') {
+        result.value = 'Syntax Error';
+        return;
+      }
+      operand2 += numbers[i].textContent;
+      result.value = operand2;
+    }
+  });
 }
 
-  buttons.forEach(function(button) {
-    button.addEventListener("click", 
-    function() {
-      const value = button.value;
-      if (button.classList.contains('num') || button.classList.contains('oper')){
-        // Adding buttons pressed to array for later working
-        display.value+=value;
-        arr.push(value);
-        arr = display.value.split(/([^0-9.])/);
-          // Backspace or delete work
-      } else if (value == 'Del') {
-          display.value = display.value.slice(0, -1);
-          arr.pop();
-          console.log(arr); 
-          // Clearing the display and list
-      } else if (value == 'CL'){
-          arr.length = 0;
-          display.value ='';
-          console.log(arr); 
-      } else if (value == 'equal'){
-        console.log(operate(arr));
-        display.value = operate(arr);
-      }
-        // Perform some action here
-    });
+// Add event listeners to operator buttons
+for (let i = 0; i < operators.length; i++) {
+  operators[i].addEventListener('click', function() {
+    if (!operator && operand1) {
+      operator = operators[i].textContent;
+      result.value = operator;
+    } else if (operand1 && operator && operand2) {
+      const resultValue = calculateExpression(parseFloat(operand1), operator, parseFloat(operand2));
+      result.value = resultValue;
+      operand1 = resultValue.toString();
+      operator = operators[i].textContent;
+      operand2 = '';
+    }
   });
+}
+
+// Calculate and display the result
+equals.addEventListener('click', function() {
+  if (operand1 && operator && operand2) {
+    const resultValue = calculateExpression(parseFloat(operand1), operator, parseFloat(operand2));
+    result.value = resultValue;
+    operand1 = resultValue;
+    operator = '';
+    operand2 = '';
+  }
+});
+
+// Clear the input field
+clear.addEventListener('click', function() {
+  operand1 = '';
+  operator = '';
+  operand2 = '';
+  result.value = '';
+});
+
+// Add event listener to backspace button
+backspace.addEventListener('click', function() {
+  if (!operator) {
+    operand1 = operand1.slice(0, -1);
+    result.value = operand1;
+  } else {
+    operand2 = operand2.slice(0, -1);
+    result.value = operand2;
+  }
+});
+
+// Add event listener to percentage button
+percentage.addEventListener('click', function() {
+  if (operand1 && !operand2) {
+    operand1 = parseFloat(operand1) / 100;
+    result.value = operand1;
+  } else if (operand1 && operator && operand2) {
+    operand2 = parseFloat(operand2) / 100;
+    result.value = operand2;
+  }
+});
+
+// Function to calculate the result of an expression
+function calculateExpression(operand1, operator, operand2) {
+  if (operand1 && operator && operand2) {
+    switch (operator) {
+      case '+':
+        return operand1 + operand2;
+      case '-':
+        return operand1 - operand2;
+      case '*':
+        return operand1 * operand2;
+      case '/':
+        if (operand2 == 0) {
+          return 'Math Error';
+        }
+        return operand1 / operand2;
+      default:
+        return 'Invalid operator';
+    }
+}
+}
